@@ -1,0 +1,78 @@
+import java.util.Scanner;
+
+class BankAccount{
+    private double balance;
+    public BankAccount(double balance){
+        this.balance=balance;
+    }
+    public double getBalance(){
+        return balance;
+    }
+    public void deposit(double amount){
+        balance +=amount;
+        System.out.println("deposited"+amount+"current balance"+balance);
+    }
+    public boolean withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            System.out.println("withdraw" + amount + "current balance" + balance);
+            return true;
+        } else {
+            System.out.println("insufficient funds");
+            return false;
+        }
+    }
+}
+class atm{
+    private BankAccount bankAccount;
+    public atm(BankAccount bankAccount){
+        this.bankAccount=bankAccount;
+    }
+    public void display(){
+        System.out.println("1.withdraw 2.deposit 3.checkbalance 4.exit");
+    }
+    public void withdraw(double amount){
+        if(bankAccount.withdraw(amount)){
+            System.out.println("take your cash");
+        }
+    }
+    public void deposit(double amount){
+        bankAccount.deposit(amount);
+    }
+    public void checkbalance(){
+        System.out.println(bankAccount.getBalance());
+    }
+}
+public class atm_interface {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        BankAccount bankAccount=new BankAccount(1000);
+        atm a=new atm(bankAccount);
+        int choice;
+        do{
+            a.display();
+            System.out.println("enter your choice");
+            choice=sc.nextInt();
+            switch (choice){
+                case 1:
+                    System.out.println("enter amount to withdraw");
+                    double withdrawamount=sc.nextDouble();
+                    a.withdraw(withdrawamount);
+                    break;
+                case 2:
+                    System.out.println("enter amount to deposit");
+                    double depositamount=sc.nextDouble();
+                    a.deposit(depositamount);
+                    break;
+                case 3:
+                    a.checkbalance();
+                    break;
+                case 4:
+                    System.out.println("thank you");
+                    break;
+                default:
+                    System.out.println("invalid choice");
+            }
+        }while(choice!=4);
+    }
+}
